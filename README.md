@@ -1,5 +1,5 @@
 # Jeedom_LektriCo
 
-![LektriCo](https://github.com/Sattaz/Jeedom_LektriCo/tree/master/plugin_info/LektriCo_icon.png)
+![LektriCo](https://sattaz.github.io/Jeedom_SMA_Sunny_Boy/pictures/LektriCo_icon.png)
 
 Jeedom plugin to control a LektriCo electric car charger
