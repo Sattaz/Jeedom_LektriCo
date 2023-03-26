@@ -1,19 +1,19 @@
 Description 
 ===
 
-Le plugin OpenEVSE permet de piloter un chargeur de voiture électrique OpenEVSE ou EmonEVSE.
+Le plugin LektriCo permet de piloter un chargeur de voiture électrique LektriCo.
 
 En application courante, il permet par exemple de démarrer ou arrêter une charge manuellement mais encore d'ajuster automatiquement la puissance de charge en fonction de la puissance réelle générée par une installation photovoltaïque depuis un scénario dans Jeedom.
 
 Le chargeur est disponible ici:
-[Lien vers le chargeur EmonEVSE de chez OpenEnergyMonitor](https://shop.openenergymonitor.com/emonevse-wifi-connected-ev-charging-station-type-2/)
+[Lien vers le chargeur LektriCo](https://lektri.co/)
 
 
 Remarques:
 
 - La borne existe en monophasé et en triphasé.
 
-- La borne OpenEVSE peut varier l’intensité de charge de 6 a 32 ampères.
+- La borne LektriCo peut varier l’intensité de charge de 6 a 32 ampères.
 
 Configuration du plugin 
 ===
@@ -21,24 +21,14 @@ Configuration du plugin
 La configuration du plugin est très simple.
 Une fois installé, il suffit de créer un nouvel équipement et de le configurer de la manière suivantes:
 
-![OpenEVSE](https://sattaz.github.io/Jeedom_LektriCo/pictures/LektriCo_1.jpg)
+![LektriCo](https://sattaz.github.io/Jeedom_LektriCo/pictures/LektriCo_1.jpg)
 
 Comme pour chaque plugin Jeedom, il faudra indiquer le 'Nom de l'équipement', un 'Objet parent' et une 'Catégorie'.
 Ne pas oublier de cocher les cases 'Activer' et 'Visible'.
 
 Puis viennent aussi quelques paramètres dédiés aux spécifications du chargeur et l'installation électrique:
 
--   IP de la borne : veuillez renseigner l'adresse IP de l'interface web du chargeur OpenEVSE/EmonEVSE.
-
--   Identifiant : veuillez renseigner votre identifiant si vous avez activé l'authentification HTTP depuis l'interface web du chargeur OpenEVSE/EmonEVSE.
-
--   Mot de passe : veuillez renseigner le mot de passe.
-
--   Mode de fonctionnement : veuillez sélectionner le type d'API à utiliser:
-    - RAPI (Obsolete) -> il est préconisé de ne plus utiliser ce mode, les anciens et nouveaux firmwares wifi de la borne gèrent encore RAPI pour le moment.
-    - WIFI -> c'est la nouvelle méthode d'interraction avec la borne, intégré dans les derniers firmwares wifi de la borne. Important: votre borne OpenEVSE doit être à jour avec une version de firmware wifi minimum 4.1.6 
-    
-    [Lien Firmware : https://github.com/OpenEVSE/ESP32_WiFi_V4.x/releases](https://github.com/OpenEVSE/ESP32_WiFi_V4.x/releases)
+-   IP de la borne : veuillez renseigner l'adresse IP de l'interface web du chargeur LektriCo.
 
 -   Intensité de charge minimum (A) : veuillez sélectionner l'ampérage minimum que le chargeur doit délivrer (en ampères)
 
@@ -55,7 +45,7 @@ Commandes de l'équipement
 
 Comme énoncé dans le précédent chapitre, les commandes de l'équipement sont automatiquement crées dès lors que la configuration est sauvegardée.
 
-![OpenEVSE](https://sattaz.github.io/Jeedom_OpenEVSE/pictures/OpenEVSE_2.jpg)
+![LektriCo](https://sattaz.github.io/Jeedom_LektriCo/pictures/LektriCo_2.jpg)
 
 Informations pratiques:
 
@@ -66,7 +56,7 @@ Le widget
 
 Le widget arrive comme montré sur la photo ci-après et le curseur permettant le réglage de la puissance du chargeur est calibrée (min/max) par l'ampérage de charge maximum indiquée dans la configuration de l'équipement.
 
-![OpenEVSE](https://sattaz.github.io/Jeedom_OpenEVSE/pictures/OpenEVSE_3.jpg)
+![LektriCo](https://sattaz.github.io/Jeedom_LektriCo/pictures/LektriCo_3.jpg)
 
 Libre à vous de modifier le widget afin de l'adapter à votre style de présentation.
 
