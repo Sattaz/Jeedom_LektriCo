@@ -1,4 +1,4 @@
-# Jeedom_OpenEVSE
+# Jeedom_LektriCo
 
 ![OpenEVSE](https://sattaz.github.io/Jeedom_LektriCo/pictures/LektriCo_icon.png)
 
