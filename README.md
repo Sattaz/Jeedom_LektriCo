@@ -1,4 +1,4 @@
-# Jeedom_LektriCo
+# Jeedom LektriCo
 
 ![LektriCo](https://sattaz.github.io/Jeedom_LektriCo/pictures/LektriCo_icon.png)
 
