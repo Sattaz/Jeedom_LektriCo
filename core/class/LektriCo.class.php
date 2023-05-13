@@ -83,7 +83,7 @@ class LektriCo extends eqLogic {
   				CURLOPT_TIMEOUT => 10,
   				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   				CURLOPT_CUSTOMREQUEST => 'POST',
-               	CURLOPT_POSTFIELDS => '{config_key:"install_current", config_value:'.$valueSlider.'}',
+               	CURLOPT_POSTFIELDS => '{config_key:"user_current", config_value:'.$valueSlider.'}',
   				CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
             ]);
 			$response = curl_exec($ch);
@@ -760,7 +760,7 @@ class LektriCo extends eqLogic {
 		$info->setSubType('numeric');
 		$info->setTemplate('dashboard','line');
       	$info->setTemplate('mobile','line');
-		$info->setIsHistorized(1);
+		$info->setIsHistorized(0);
 		$info->setIsVisible(0);
 		$info->setOrder(25);
 		$info->save();
@@ -776,7 +776,7 @@ class LektriCo extends eqLogic {
 		$info->setSubType('binary');
 		$info->setTemplate('dashboard','line');
       	$info->setTemplate('mobile','line');
-		$info->setIsHistorized(1);
+		$info->setIsHistorized(0);
 		$info->setIsVisible(0);
 		$info->setOrder(26);
 		$info->save();
