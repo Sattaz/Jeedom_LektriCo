@@ -34,7 +34,9 @@ Puis viennent aussi quelques paramètres dédiés aux spécifications du chargeu
 
 -   Intensité de charge maximum (A) : veuillez sélectionner l'ampérage maximum que le chargeur ne doit pas dépasser, ceci en fonction de votre installation/abonnement électrique (en ampères)
 
--   Commande ajustement tension (V) : Vous pouvez spécifier une valeur numérique, renseigner une commande de type information ou encore une variable, cette donnée va servir à ajuster la valeur de la tension de référence du chargeur afin d'optimiser le calcul de la session de charge au plus précis.
+-   Commande lecture mode tarification : vous pouvez renseigner une commande de type information qui indique le mode de tarification en cours.
+
+-   Mode tarification chargement auto. : vous pouvez renseigner un texte ou une valeur numérique pour désigner à quoi correspond le mode de tarification obtenu précédement par la commande de 'lecture mode tarification' et qui determinera quand démarrer une charge automatiquement lors du passage en heure creuse par exemple (HC, etc...)
 
 -> Veuillez dès à présent appuyer sur le bouton 'Sauvegarder' afin d'enregistrer la configuration.
 
