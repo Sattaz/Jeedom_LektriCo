@@ -341,6 +341,37 @@ class LektriCo extends eqLogic {
 			} else {
 				log::add('LektriCo', 'debug','Fonction GetData : Amperes Set Point -> Check valeur set point EVSE vs Plugin OK ('.$setPointEVSE. ' ampères)');
 			}
+          
+           	//Get last charge session data
+            curl_setopt_array($ch, [
+  				CURLOPT_URL => 'http://'.$LektriCo_IP.'/rpc/Counters_config.Get',
+  				CURLOPT_RETURNTRANSFER => true,
+  				CURLOPT_ENCODING => "",
+  				CURLOPT_MAXREDIRS => 10,
+  				CURLOPT_TIMEOUT => 10,
+  				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  				CURLOPT_CUSTOMREQUEST => 'GET',
+  				CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+           	]);
+			$response = curl_exec($ch);
+              
+            if ($response=='') {
+               	log::add('LektriCo', 'debug','Fonction GetData : Erreur de connexion / authentification');
+               	curl_close($ch);
+               	return;
+            }
+              
+			$err = curl_error($ch);
+
+			if ($err) {
+               	log::add('LektriCo', 'debug','Fonction GetData : State - Erreur CURL -> ').$err;
+               	return;
+			}
+            $json = json_decode($response, true);
+
+			// Get LektriCo last session energy
+			$LastSessionEnergy = $json['last_session_energy'];
+			$this->checkAndUpdateCmd('EVSE_LastSession', round($LastSessionEnergy/1000,2));
  
            	//Get all other data
             curl_setopt_array($ch, [
@@ -511,6 +542,22 @@ class LektriCo extends eqLogic {
 		$info->setUnite('Kwh');
 		$info->setOrder(3);
 		$info->save();
+      
+		$info = $this->getCmd(null, 'EVSE_LastSession');
+		if (!is_object($info)) {
+			$info = new LektriCoCmd();
+			$info->setName(__('Dernière Session : ', __FILE__));
+		}
+		$info->setLogicalId('EVSE_LastSession');
+		$info->setEqLogic_id($this->getId());
+		$info->setType('info');
+		$info->setSubType('numeric');
+		$info->setTemplate('dashboard','line');
+      	$info->setTemplate('mobile','line');
+		$info->setIsHistorized(1);
+		$info->setUnite('Kwh');
+		$info->setOrder(4);
+		$info->save();
 		
 		$info = $this->getCmd(null, 'EVSE_Temp');
 		if (!is_object($info)) {
@@ -527,7 +574,7 @@ class LektriCo extends eqLogic {
 		$info->setConfiguration('maxValue', 80);
 		$info->setIsHistorized(1);
 		$info->setUnite('°C');
-		$info->setOrder(4);
+		$info->setOrder(5);
 		$info->save();
 		
 		$info = $this->getCmd(null, 'EVSE_Plug');
@@ -543,7 +590,7 @@ class LektriCo extends eqLogic {
       	$info->setTemplate('mobile','default');
 		$info->setIsHistorized(0);
 		$info->setIsVisible(1);
-		$info->setOrder(5);
+		$info->setOrder(6);
 		$info->save();
 		
 		$AMin = $this->getConfiguration("AMin");
@@ -573,7 +620,7 @@ class LektriCo extends eqLogic {
 		$info->setConfiguration('maxValue', $AMax);
 		$info->setIsHistorized(1);
 		$info->setUnite('A');
-		$info->setOrder(6);
+		$info->setOrder(7);
 		$info->save();
 		
 		$action = $this->getCmd(null, 'EVSE_AmpSetPointSlider');
@@ -594,7 +641,7 @@ class LektriCo extends eqLogic {
 	    $action->setUnite('A');
 		$action->setDisplay("showNameOndashboard",0);
       	$action->setDisplay("showNameOnmobile",0);
-		$action->setOrder(7);
+		$action->setOrder(8);
 		$action->save();    
 					
 		$info = $this->getCmd(null, 'EVSE_State');
@@ -610,7 +657,7 @@ class LektriCo extends eqLogic {
       	$info->setTemplate('mobile','default');
 		$info->setIsHistorized(0);
 		$info->setIsVisible(1);
-		$info->setOrder(8);
+		$info->setOrder(9);
 		$info->save();
 		
 		$info = $this->getCmd(null, 'EVSE_Mode');
@@ -626,7 +673,7 @@ class LektriCo extends eqLogic {
       	$info->setTemplate('mobile','default');
 		$info->setIsHistorized(0);
 		$info->setIsVisible(0);
-		$info->setOrder(9);
+		$info->setOrder(10);
 		$info->save();
 		$this->checkAndUpdateCmd('EVSE_Mode', 'Manuel');
       
@@ -643,7 +690,7 @@ class LektriCo extends eqLogic {
       	$info->setTemplate('mobile','default');
 		$info->setIsHistorized(0);
 		$info->setIsVisible(0);
-		$info->setOrder(10);
+		$info->setOrder(11);
 		$info->save();
       
 		$action = $this->getCmd(null, 'EVSE_Start');
@@ -660,7 +707,7 @@ class LektriCo extends eqLogic {
       	$action->setDisplay("showNameOndashboard",0);
       	$action->setDisplay("showNameOnmobile",0);
 		$action->setEqLogic_id($this->getId());
-		$action->setOrder(11);
+		$action->setOrder(12);
 		$action->save();
       
      	$action = $this->getCmd(null, 'EVSE_Stop');
@@ -677,7 +724,7 @@ class LektriCo extends eqLogic {
       	$action->setDisplay("showNameOndashboard",0);
       	$action->setDisplay("showNameOnmobile",0);
 		$action->setEqLogic_id($this->getId());
-		$action->setOrder(12);
+		$action->setOrder(13);
 		$action->save();
       
       	$info = $this->getCmd(null, 'EVSE_ModeBin');
