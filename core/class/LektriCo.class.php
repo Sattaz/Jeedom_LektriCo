@@ -331,7 +331,7 @@ class LektriCo extends eqLogic {
             $json = json_decode($response, true);
           
           	// Get LektriCo Amperes Set Point
-			$setPointEVSE = $json['install_current'];
+			$setPointEVSE = $json['user_current'];
 			$cmd = $this->getCmd(null, 'EVSE_AmpSetPointReadBack');
 			$setPointCMD = $cmd->execCmd();
 			if ($setPointEVSE != $setPointCMD) {
