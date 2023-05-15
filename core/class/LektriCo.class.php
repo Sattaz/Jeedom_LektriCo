@@ -83,7 +83,7 @@ class LektriCo extends eqLogic {
   				CURLOPT_TIMEOUT => 10,
   				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   				CURLOPT_CUSTOMREQUEST => 'POST',
-               	CURLOPT_POSTFIELDS => '{config_key:"user_current", config_value:'.$valueSlider.'}',
+               			CURLOPT_POSTFIELDS => '{config_key:"user_current", config_value:'.$valueSlider.'}',
   				CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
             ]);
 			$response = curl_exec($ch);
@@ -143,32 +143,32 @@ class LektriCo extends eqLogic {
           	$plug = 0;
   			$state = $json['extended_charger_state'];
             switch (true) {
-				case ($state == 'B'):
+		case ($state == 'B'):
                 	$plug = 1;
                    	break;
                	case ($state == 'B_AUTH'):
-					$plug = 1;
+			$plug = 1;
                    	break;
              	case ($state == 'C'):
-					$plug = 1;
-					break;
+			$plug = 1;
+			break;
              	case ($state == 'D'):
-					$plug = 1;
-					break;
-          		case ($state == 'B_PAUSE'):
-					$plug = 1;
-					break;
-        		case ($state == 'B_SCHEDULER'):
-					$plug = 1;
-					break;
-			}
+			$plug = 1;
+			break;
+          	case ($state == 'B_PAUSE'):
+			$plug = 1;
+			break;
+        	case ($state == 'B_SCHEDULER'):
+			$plug = 1;
+			break;
+		}
           
          	if ($plug==0 && $StartStop=='Start') {
                	log::add('LektriCo', 'debug','Fonction SetStartStop : Prise non connectée, la charge ne peut pas démarrer');
                	return;
-			}
+		}
           
-			$state = 'Charge.Stop';
+		$state = 'Charge.Stop';
             switch ($StartStop) {
 				case ('Start'):
 					$state = 'Charge.Start';
@@ -445,12 +445,12 @@ class LektriCo extends eqLogic {
 					break;
           		case ($state == 'B_PAUSE'):
 					$this->checkAndUpdateCmd('EVSE_State', 'Pause');
-                 	$this->checkAndUpdateCmd('EVSE_Status', 0);
+                 	$this->checkAndUpdateCmd('EVSE_Status', 1);
                 	$this->checkAndUpdateCmd('EVSE_Plug', 'Connectée');
 					break;
         		case ($state == 'B_SCHEDULER'):
 					$this->checkAndUpdateCmd('EVSE_State', 'Pause');
-                 	$this->checkAndUpdateCmd('EVSE_Status', 0);
+                 	$this->checkAndUpdateCmd('EVSE_Status', 1);
                 	$this->checkAndUpdateCmd('EVSE_Plug', 'Connectée');
 					break;
 			}
