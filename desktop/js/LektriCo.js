@@ -47,7 +47,7 @@ $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder:
    tr += '</div>';
    tr += '</td>';
    tr += '<td style="min-width:75px;width:120px;">';
-  // tr += '<span class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>';
+   //tr += '<span class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>';
   //tr += '<span class="type" type="' + init(_cmd.type) + '">'+_cmd.type+' | '+_cmd.subType+'</span>';
    tr += '<span  >' + init(_cmd.type) + ' | ' + init(_cmd.subType) + '</span>';
 
@@ -61,10 +61,10 @@ $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder:
    tr += '<td style="min-width:50px;width:100px;">';
    tr += '<div><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></div> ';
    tr += '</td>';
-   //tr += '<td style="min-width:50px;width:170px;">';
-   //tr += '<div><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></div> ';
+   tr += '<td style="min-width:50px;width:170px;">';
+   tr += '<div><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></div> ';
    //tr += '<div><label class="checkbox-inline"><input type="checkbox" class="cmdAttr" data-l1key="display" data-l2key="invertBinary"/>{{Inverser}}</label></div>';
-   //tr += '</td>';
+   tr += '</td>';
    /*tr += '<td style="min-width:180px;">';
    tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="minValue" placeholder="{{Min.}}" title="{{Min.}}" style="width:30%;display:inline-block;"/> ';
    tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="maxValue" placeholder="{{Max.}}" title="{{Max.}}" style="width:30%;display:inline-block;"/> ';
