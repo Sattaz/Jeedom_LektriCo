@@ -7,6 +7,22 @@ $plugin = plugin::byId('LektriCo');
 sendVarToJS('eqType', $plugin->getId());
 $eqLogics = eqLogic::byType($plugin->getId());
 ?>
+  
+<script>
+	function ShowHide() {
+  		var DeviceType = document.getElementById("DeviceType");
+   		var divAmin = document.getElementById("divAmin");
+  		var divAmax = document.getElementById("divAmax");
+  		var divSendHPHCCmd = document.getElementById("divsendHPHCCmd");
+  		var divIndexHCCmd = document.getElementById("divindexHCCmd");
+  		var divInstallationType = document.getElementById("divInstallationType");
+  		divAmin.style.display = DeviceType.value < 30 ? "block" : "none";
+  		divAmax.style.display = DeviceType.value < 30 ? "block" : "none";
+  		divSendHPHCCmd.style.display = DeviceType.value < 30 ? "block" : "none";
+       	divIndexHCCmd.style.display = DeviceType.value < 30 ? "block" : "none";
+  		divInstallationType.style.display = DeviceType.value < 30 ? "none" : "block";
+  	}
+</script>
 
 <div class="row row-overflow">
 	<!-- Page d'accueil du plugin -->
@@ -119,10 +135,22 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							</div>
 							<br>
 							<legend><i class="fas fa-list-alt"></i> {{Configuration}}</legend>
-							<div class="form-group">
-								<label class="col-sm-3 control-label">{{IP de la borne}}</label>
+                           	<div class="form-group">
+								<label class="col-sm-3 control-label">{{Référence appareil}}</label>
 								<div class="col-sm-3">
-									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="IP" placeholder="IP de la borne"/>
+									<!-- <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DeviceType" placeholder="Référence appareil"/> -->
+									<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="DeviceType" id="DeviceType" onchange = "ShowHide()">
+										<option value="10">Borne Monophasée - 1P7K</option>
+                                    	<option value="20">Borne Triphasée - 3P22K</option>
+                                        <option value="30">Compteur Energie - M2W</option>
+									</select>
+								</div>
+							</div>
+							
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">{{IP}}</label>
+								<div class="col-sm-3">
+									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="IP" placeholder="IP"/>
 								</div>
 							</div>
                             <!--
@@ -139,7 +167,10 @@ $eqLogics = eqLogic::byType($plugin->getId());
         						</div>
     						</div>
                             -->
-							<div class="form-group">
+                            
+                            <!-- All settings for the chargers - BEGIN -->
+                            
+							<div class="form-group" id="divAmin" style="display: none">
 							<label class="col-sm-3 control-label">{{Intensité de charge minimum (A)}}</label>
 							<div class="col-sm-3">
 								<!-- <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AMin" placeholder="Ampérage minimum de la borne (en A)"/> -->
@@ -152,7 +183,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</select>
 							</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group" id="divAmax" style="display: none">
 							<label class="col-sm-3 control-label">{{Intensité de charge maximum (A)}}</label>
 							<div class="col-sm-3">
 								<!-- <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="AMax" placeholder="Ampérage maximum que la borne ne doit pas dépasser (en A)"/> -->
@@ -186,7 +217,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</select>
 							</div>
 							</div>
-                     		<div class="form-group">
+                     		<div class="form-group" id="divsendHPHCCmd" style="display: none">
 							<label class="col-sm-3 control-label">{{Commande lecture mode tarification}}</label>
 							<div class="col-sm-6">
 								<div class="input-group CA-cmd-el">
@@ -197,12 +228,28 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								</div>			
 							</div>
 							</div>
-                          	<div class="form-group">
+                          	<div class="form-group" id="divindexHCCmd" style="display: none">
 								<label class="col-sm-3 control-label">{{Mode tarification chargement auto.}}</label>
 								<div class="col-sm-3">
 									<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="indexHCCmd" placeholder="'HC' ou 'HC'... ou '1' , etc..."/>
 								</div>
 							</div>
+                            <!-- All settings for the chargers - END -->
+                            
+                            <!-- All settings for the energy meter - BEGIN -->
+                            
+                           	<div class="form-group" id="divInstallationType" style="display: none">
+								<label class="col-sm-3 control-label">{{Type installation}}</label>
+								<div class="col-sm-3">
+									<!-- <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="InstallationType" placeholder="Type installation"/> -->
+									<select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="InstallationType" id="InstallationType">
+										<option value="10">Monophasée - 1 Phase</option>
+                                    	<option value="20">Triphasée - 3 Phases</option>
+									</select>
+								</div>
+							</div>
+                                                        
+                            <!-- All settings for the energy meter - END -->
 							
 						</div>
 
