@@ -24,18 +24,58 @@ class LektriCo extends eqLogic {
 
     /*     * ***********************Methode static*************************** */
 
-   	//Fonction exécutée automatiquement toutes les minutes par Jeedom
-    public static function cron() {
-		foreach (self::byType('LektriCo') as $LektriCo) {//parcours tous les équipements du plugin LektriCo
-			if ($LektriCo->getIsEnable() == 1) {//vérifie que l'équipement est actif
-				$cmd = $LektriCo->getCmd(null, 'refresh');//retourne la commande "refresh si elle existe
-				if (!is_object($cmd)) {//Si la commande n'existe pas
-					continue; //continue la boucle
-				}
-				$cmd->execCmd(); // la commande existe on la lance
+  	public static function deamon_info() {
+		$return = array();
+		$return['log'] = '';
+		$return['state'] = 'nok';
+		$cron = cron::byClassAndFunction(__CLASS__, 'daemon');
+		if (is_object($cron) && $cron->running()) {
+			$return['state'] = 'ok';
+		}
+		$return['launchable'] = 'ok';
+		return $return;
+	}
+
+	public static function deamon_start() {
+		self::deamon_stop();
+		$deamon_info = self::deamon_info();
+		if ($deamon_info['launchable'] != 'ok') {
+			throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
+		}
+		$cron = cron::byClassAndFunction(__CLASS__, 'daemon');
+		if (!is_object($cron)) {
+			$cron = new cron();
+			$cron->setClass(__CLASS__);
+			$cron->setFunction('daemon');
+			$cron->setEnable(1);
+			$cron->setDeamon(1);
+			$cron->setTimeout(1440);
+			$cron->setSchedule('* * * * *');
+			$cron->save();
+		}
+		$cron->run();
+	}
+
+	public static function deamon_stop() {
+		$cron = cron::byClassAndFunction(__CLASS__, 'daemon');
+		if (is_object($cron)) {
+			$cron->halt();
+		}
+	}
+
+	public static function daemon() {
+		$starttime = microtime(true);
+		foreach (self::byType(__CLASS__, true) as $eqLogic) {
+          	$cmd = $eqLogic->getCmd(null, 'update');//retourne la commande 'update' si elle existe
+			if (is_object($cmd)) {//si la comande existe
+				$cmd->execCmd();//alors on l'execute
 			}
 		}
-    }
+		$endtime = microtime(true);
+		if ($endtime - $starttime < config::byKey('pollInterval', __CLASS__, 60, true)) {
+			usleep(floor((config::byKey('pollInterval', __CLASS__) + $starttime - $endtime) * 1000000));
+		}
+	}
   
   	public static function templateWidget(){
 		$return = array('info' => array('string' => array()));
@@ -1311,28 +1351,20 @@ class LektriCo extends eqLogic {
           
         }
       
-      
-     	$refresh = $this->getCmd(null, 'refresh');
+     	$refresh = $this->getCmd(null, 'update');
 		if (!is_object($refresh)) {
 			$refresh = new LektriCoCmd();
 			$refresh->setName(__('Rafraîchir', __FILE__));
 		}
 		$refresh->setEqLogic_id($this->getId());
-		$refresh->setLogicalId('refresh');
+		$refresh->setLogicalId('update');
 		$refresh->setType('action');
 		$refresh->setSubType('other');
+    	$refresh->setIsVisible(0);
 		$refresh->setOrder(99);
 		$refresh->save();
       
-     	foreach (self::byType('LektriCo') as $LektriCo) {//parcours tous les équipements du plugin LektriCo
-			if ($LektriCo->getIsEnable() == 1) {//vérifie que l'équipement est actif
-				$cmd = $LektriCo->getCmd(null, 'refresh');//retourne la commande "refresh si elle existe
-				if (!is_object($cmd)) {//Si la commande n'existe pas
-					continue; //continue la boucle
-				}
-				$cmd->execCmd(); // la commande existe on la lance
-			}
-		}
+      	self::deamon_start();
       
     }
 
@@ -1433,13 +1465,13 @@ class LektriCoCmd extends cmd {
 				$cmd = $eqlogic->SetLoadBalancingMode(3);
 				$info = $eqlogic->GetEM($DeviceType);
 				break;
-			case 'refresh':
+            case 'update':
             	if ($DeviceType < 30 ) {
 					$info = $eqlogic->GetData($DeviceType);
                 } else {
                   	$info = $eqlogic->GetEM($DeviceType);
                 }
-				break;					
+				break;
 		}
     }
     /*     * **********************Getteur Setteur*************************** */
