@@ -700,6 +700,8 @@ class LektriCo extends eqLogic {
     }
 
     public function postSave() {
+	$action = $this->getCmd(null, 'refresh');
+	if (is_object($action)) {$action->remove();}
       
     	$DeviceType = $this->getConfiguration("DeviceType");
       	if ($DeviceType < 30 ) {
