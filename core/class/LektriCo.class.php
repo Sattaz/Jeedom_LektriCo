@@ -705,44 +705,67 @@ class LektriCo extends eqLogic {
       	if ($DeviceType < 30 ) {
           	// Device 10 = 1P7K, Device 20 = 3P22K
           	// Cleanup any object not related to Chargers
-        	$action = $this->getCmd(null, 'EVSE_Volts');
+          	$action = $this->getCmd(null, 'EVSE_VoltsL1');
           	if (is_object($action)) {$action->remove();}
-          	$action = $this->getCmd(null, 'EVSE_Amperes');
+          	$action = $this->getCmd(null, 'EVSE_VoltsL2');
           	if (is_object($action)) {$action->remove();}
-          	$action = $this->getCmd(null, 'EVSE_Watts');
+          	$action = $this->getCmd(null, 'EVSE_VoltsL3');
+          	if (is_object($action)) {$action->remove();}
+			$action = $this->getCmd(null, 'EVSE_AmperesL1');
+          	if (is_object($action)) {$action->remove();}
+          	$action = $this->getCmd(null, 'EVSE_AmperesL2');
+          	if (is_object($action)) {$action->remove();}
+          	$action = $this->getCmd(null, 'EVSE_AmperesL3');
+          	if (is_object($action)) {$action->remove();}          
+          	$action = $this->getCmd(null, 'EVSE_WattsL1');
+          	if (is_object($action)) {$action->remove();}
+           	$action = $this->getCmd(null, 'EVSE_WattsL2');
+          	if (is_object($action)) {$action->remove();}
+            $action = $this->getCmd(null, 'EVSE_WattsL3');
+          	if (is_object($action)) {$action->remove();}
+          	$action = $this->getCmd(null, 'EVSE_LoadBalancingMode');
+          	if (is_object($action)) {$action->remove();}
+          	$action = $this->getCmd(null, 'EVSE_LBM_Off');
+          	if (is_object($action)) {$action->remove();}
+          	$action = $this->getCmd(null, 'EVSE_LBM_Power');
+          	if (is_object($action)) {$action->remove();}
+          	$action = $this->getCmd(null, 'EVSE_LBM_Hybrid');
+          	if (is_object($action)) {$action->remove();}
+          	$action = $this->getCmd(null, 'EVSE_LBM_Green');
           	if (is_object($action)) {$action->remove();}
       
 			$info = $this->getCmd(null, 'EVSE_Volts');
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Tension : ', __FILE__));
+           		$info->setLogicalId('EVSE_Volts');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+             	$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+             	$info->setIsHistorized(1);
+				$info->setUnite('V');
 			}
-			$info->setLogicalId('EVSE_Volts');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setIsHistorized(1);
-			$info->setUnite('V');
-			$info->setOrder(1);
-			$info->save();
+          	$info->setOrder(1);
+          	$info->save();
 		
 			$info = $this->getCmd(null, 'EVSE_Amperes');
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Intensité : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_Amperes');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setConfiguration('minValue', 0);
-			$info->setConfiguration('maxValue', 32);
-			$info->setIsHistorized(1);
-			$info->setUnite('A');
+			
+				$info->setLogicalId('EVSE_Amperes');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setConfiguration('minValue', 0);
+				$info->setConfiguration('maxValue', 32);
+				$info->setIsHistorized(1);
+				$info->setUnite('A');
+            }  
 			$info->setOrder(2);
 			$info->save();
 		
@@ -750,15 +773,16 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Charge Session : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_ChargeSession');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setIsHistorized(1);
-			$info->setUnite('Kwh');
+			
+				$info->setLogicalId('EVSE_ChargeSession');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setIsHistorized(1);
+				$info->setUnite('Kwh');
+            }
 			$info->setOrder(3);
 			$info->save();
       
@@ -766,15 +790,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Dernière Session : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_LastSession');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setIsHistorized(1);
-			$info->setUnite('Kwh');
+				$info->setLogicalId('EVSE_LastSession');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setIsHistorized(1);
+				$info->setUnite('Kwh');
+            }
 			$info->setOrder(4);
 			$info->save();
 		
@@ -782,17 +806,17 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Température : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_Temp');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setConfiguration('minValue', 0);
-			$info->setConfiguration('maxValue', 80);
-			$info->setIsHistorized(1);
-			$info->setUnite('°C');
+				$info->setLogicalId('EVSE_Temp');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setConfiguration('minValue', 0);
+				$info->setConfiguration('maxValue', 80);
+				$info->setIsHistorized(1);
+				$info->setUnite('°C');
+            }
 			$info->setOrder(5);
 			$info->save();
 		
@@ -800,15 +824,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Prise : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_Plug');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('string');
-			$info->setTemplate('dashboard','default');
-      		$info->setTemplate('mobile','default');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(1);
+				$info->setLogicalId('EVSE_Plug');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('string');
+				$info->setTemplate('dashboard','default');
+      			$info->setTemplate('mobile','default');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(1);
+            }
 			$info->setOrder(6);
 			$info->save();
 		
@@ -819,7 +843,7 @@ class LektriCo extends eqLogic {
 			}  
 			if (empty($AMax)) {
 				$AMax = 7;
-          }
+          	}
       		if ($AMax<=$AMin) {
          		$AMax = $AMin + 1;
         	}
@@ -828,17 +852,17 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Consigne Demandée : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_AmpSetPointReadBack');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setConfiguration('minValue', $AMin);
-			$info->setConfiguration('maxValue', $AMax);
-			$info->setIsHistorized(1);
-			$info->setUnite('A');
+				$info->setLogicalId('EVSE_AmpSetPointReadBack');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setConfiguration('minValue', $AMin);
+				$info->setConfiguration('maxValue', $AMax);
+				$info->setIsHistorized(1);
+				$info->setUnite('A');
+            }
 			$info->setOrder(7);
 			$info->save();
 		
@@ -847,19 +871,19 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_AmpSetPointSlider');
 				$action->setName(__('Curseur Consigne', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('slider');
-	    	$action->setConfiguration('stepValue', 1);
-      		$action->setValue($this->getCmd(null, 'EVSE_AmpSetPointReadBack')->getId());
-      		$action->setTemplate('dashboard','LektriCo::setpoint');
-			//$action->setTemplate('mobile','LektriCo::setpoint'); //TEMPLATE SLIDER
-			$action->setConfiguration('minValue', $AMin);
+				$action->setType('action');
+				$action->setSubType('slider');
+	    		$action->setConfiguration('stepValue', 1);
+      			$action->setValue($this->getCmd(null, 'EVSE_AmpSetPointReadBack')->getId());
+      			$action->setTemplate('dashboard','LektriCo::setpoint');
+				//$action->setTemplate('mobile','LektriCo::setpoint'); //TEMPLATE SLIDER
+				$action->setEqLogic_id($this->getId());
+	    		$action->setUnite('A');
+				$action->setDisplay("showNameOndashboard",0);
+      			$action->setDisplay("showNameOnmobile",0);
+            }
+       		$action->setConfiguration('minValue', $AMin);
 			$action->setConfiguration('maxValue', $AMax);
-			$action->setEqLogic_id($this->getId());
-	    	$action->setUnite('A');
-			$action->setDisplay("showNameOndashboard",0);
-      		$action->setDisplay("showNameOnmobile",0);
 			$action->setOrder(8);
 			$action->save();    
 					
@@ -867,15 +891,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Etat : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_State');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('string');
-			$info->setTemplate('dashboard','default');
-      		$info->setTemplate('mobile','default');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(1);
+				$info->setLogicalId('EVSE_State');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('string');
+				$info->setTemplate('dashboard','default');
+      			$info->setTemplate('mobile','default');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(1);
+            }
 			$info->setOrder(9);
 			$info->save();
 		
@@ -883,15 +907,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Mode : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_Mode');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('string');
-			$info->setTemplate('dashboard','default');
-      		$info->setTemplate('mobile','default');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(0);
+				$info->setLogicalId('EVSE_Mode');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('string');
+				$info->setTemplate('dashboard','default');
+      			$info->setTemplate('mobile','default');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(0);
+            }
 			$info->setOrder(10);
 			$info->save();
 			$this->checkAndUpdateCmd('EVSE_Mode', 'Manuel');
@@ -900,15 +924,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Charge : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_Status');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('binary');
-			$info->setTemplate('dashboard','default');
-      		$info->setTemplate('mobile','default');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(0);
+				$info->setLogicalId('EVSE_Status');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('binary');
+				$info->setTemplate('dashboard','default');
+      			$info->setTemplate('mobile','default');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(0);
+            }
 			$info->setOrder(11);
 			$info->save();
       
@@ -917,15 +941,15 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_Start');
 				$action->setName(__('Charge_ON', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('other');
-      		$action->setValue($this->getCmd(null, 'EVSE_Status')->getId());
-      		$action->setTemplate('dashboard','LektriCo::OnOff');
-      		$action->setTemplate('mobile','LektriCo::OnOff');
-      		$action->setDisplay("showNameOndashboard",0);
-          	$action->setDisplay("showNameOnmobile",0);
-			$action->setEqLogic_id($this->getId());
+				$action->setType('action');
+				$action->setSubType('other');
+      			$action->setValue($this->getCmd(null, 'EVSE_Status')->getId());
+      			$action->setTemplate('dashboard','LektriCo::OnOff');
+      			$action->setTemplate('mobile','LektriCo::OnOff');
+      			$action->setDisplay("showNameOndashboard",0);
+          		$action->setDisplay("showNameOnmobile",0);
+				$action->setEqLogic_id($this->getId());
+            }
 			$action->setOrder(12);
 			$action->save();
       
@@ -934,15 +958,15 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_Stop');
 				$action->setName(__('Charge_OFF', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('other');
-      		$action->setValue($this->getCmd(null, 'EVSE_Status')->getId());
-      		$action->setTemplate('dashboard','LektriCo::OnOff');
-      		$action->setTemplate('mobile','LektriCo::OnOff');
-      		$action->setDisplay("showNameOndashboard",0);
-      		$action->setDisplay("showNameOnmobile",0);
-			$action->setEqLogic_id($this->getId());
+				$action->setType('action');
+				$action->setSubType('other');
+      			$action->setValue($this->getCmd(null, 'EVSE_Status')->getId());
+      			$action->setTemplate('dashboard','LektriCo::OnOff');
+      			$action->setTemplate('mobile','LektriCo::OnOff');
+      			$action->setDisplay("showNameOndashboard",0);
+      			$action->setDisplay("showNameOnmobile",0);
+				$action->setEqLogic_id($this->getId());
+            }
 			$action->setOrder(13);
 			$action->save();
       
@@ -950,15 +974,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('ModeAuto : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_ModeBin');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('binary');
-			$info->setTemplate('dashboard','default');
-      		$info->setTemplate('mobile','default');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(0);
+				$info->setLogicalId('EVSE_ModeBin');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('binary');
+				$info->setTemplate('dashboard','default');
+      			$info->setTemplate('mobile','default');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(0);
+            }
 			$info->setOrder(21);
 			$info->save();
       		$this->checkAndUpdateCmd('EVSE_ModeBin', 0);
@@ -968,16 +992,16 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_ModeMan');
 				$action->setName(__('ModeAuto_OFF', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('other');
-      		$action->setValue($this->getCmd(null, 'EVSE_ModeBin')->getId());
-      		$action->setTemplate('dashboard','LektriCo::AutoManu');
-      		$action->setTemplate('mobile','LektriCo::AutoManu');
-      		$action->setDisplay("showNameOndashboard",0);
-      		$action->setDisplay("showNameOnmobile",0);
-			$action->setEqLogic_id($this->getId());
-      		$action->setIsVisible(1);
+				$action->setType('action');
+				$action->setSubType('other');
+      			$action->setValue($this->getCmd(null, 'EVSE_ModeBin')->getId());
+      			$action->setTemplate('dashboard','LektriCo::AutoManu');
+      			$action->setTemplate('mobile','LektriCo::AutoManu');
+      			$action->setDisplay("showNameOndashboard",0);
+      			$action->setDisplay("showNameOnmobile",0);
+				$action->setEqLogic_id($this->getId());
+      			$action->setIsVisible(1);
+            }
 			$action->setOrder(22);
 			$action->save();
       
@@ -986,16 +1010,16 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_ModeAuto');
 				$action->setName(__('ModeAuto_ON', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('other');
-      		$action->setValue($this->getCmd(null, 'EVSE_ModeBin')->getId());
-      		$action->setTemplate('dashboard','LektriCo::AutoManu');
-      		$action->setTemplate('mobile','LektriCo::AutoManu');
-      		$action->setDisplay("showNameOndashboard",0);
-      		$action->setDisplay("showNameOnmobile",0);
-			$action->setEqLogic_id($this->getId());
-      		$action->setIsVisible(1);
+				$action->setType('action');
+				$action->setSubType('other');
+      			$action->setValue($this->getCmd(null, 'EVSE_ModeBin')->getId());
+      			$action->setTemplate('dashboard','LektriCo::AutoManu');
+      			$action->setTemplate('mobile','LektriCo::AutoManu');
+      			$action->setDisplay("showNameOndashboard",0);
+      			$action->setDisplay("showNameOnmobile",0);
+				$action->setEqLogic_id($this->getId());
+      			$action->setIsVisible(1);
+            }
 			$action->setOrder(23);
 			$action->save();
 		
@@ -1003,15 +1027,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Perso. Texte', __FILE__));
-			}
-			$info->setLogicalId('EVSE_PersoString');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('string');
-			$info->setTemplate('dashboard','default');
-      		$info->setTemplate('mobile','default');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(0);
+				$info->setLogicalId('EVSE_PersoString');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('string');
+				$info->setTemplate('dashboard','default');
+      			$info->setTemplate('mobile','default');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(0);
+            }
 			$info->setOrder(24);
 			$info->save();
 		
@@ -1019,15 +1043,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Perso. Num.', __FILE__));
-			}
-			$info->setLogicalId('EVSE_PersoNumeric');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(0);
+				$info->setLogicalId('EVSE_PersoNumeric');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(0);
+            }
 			$info->setOrder(25);
 			$info->save();
       
@@ -1035,15 +1059,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Perso. Bin.', __FILE__));
-			}
-			$info->setLogicalId('EVSE_PersoBinary');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('binary');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(0);
+				$info->setLogicalId('EVSE_PersoBinary');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('binary');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(0);
+            }
 			$info->setOrder(26);
 			$info->save();
 
@@ -1051,15 +1075,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Index HC : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_IndexHC');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('string');
-			$info->setTemplate('dashboard','default');
-      		$info->setTemplate('mobile','default');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(0);
+				$info->setLogicalId('EVSE_IndexHC');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('string');
+				$info->setTemplate('dashboard','default');
+      			$info->setTemplate('mobile','default');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(0);
+            }
 			$info->setOrder(27);
 			$info->save();
           
@@ -1113,17 +1137,18 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Tension L1 : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_VoltsL1');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setIsHistorized(1);
-			$info->setUnite('V');
+				$info->setLogicalId('EVSE_VoltsL1');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setIsHistorized(1);
+				$info->setUnite('V');
+            }
 			$info->setOrder(10);
 			$info->save();
+          
           	if ($InstallationType == 10) { //10 = single phase, 20 = 3 phased
               	$action = $this->getCmd(null, 'EVSE_VoltsL2');
           		if (is_object($action)) {$action->remove();}
@@ -1134,15 +1159,15 @@ class LektriCo extends eqLogic {
 				if (!is_object($info)) {
 					$info = new LektriCoCmd();
 					$info->setName(__('Tension L2 : ', __FILE__));
-				}
-				$info->setLogicalId('EVSE_VoltsL2');
-				$info->setEqLogic_id($this->getId());
-				$info->setType('info');
-				$info->setSubType('numeric');
-				$info->setTemplate('dashboard','line');
-      			$info->setTemplate('mobile','line');
-				$info->setIsHistorized(1);
-				$info->setUnite('V');
+					$info->setLogicalId('EVSE_VoltsL2');
+					$info->setEqLogic_id($this->getId());
+					$info->setType('info');
+					$info->setSubType('numeric');
+					$info->setTemplate('dashboard','line');
+      				$info->setTemplate('mobile','line');
+					$info->setIsHistorized(1);
+					$info->setUnite('V');
+                }
 				$info->setOrder(11);
 				$info->save();
               
@@ -1150,15 +1175,15 @@ class LektriCo extends eqLogic {
 				if (!is_object($info)) {
 					$info = new LektriCoCmd();
 					$info->setName(__('Tension L3 : ', __FILE__));
-				}
-				$info->setLogicalId('EVSE_VoltsL3');
-				$info->setEqLogic_id($this->getId());
-				$info->setType('info');
-				$info->setSubType('numeric');
-				$info->setTemplate('dashboard','line');
-      			$info->setTemplate('mobile','line');
-				$info->setIsHistorized(1);
-				$info->setUnite('V');
+					$info->setLogicalId('EVSE_VoltsL3');
+					$info->setEqLogic_id($this->getId());
+					$info->setType('info');
+					$info->setSubType('numeric');
+					$info->setTemplate('dashboard','line');
+      				$info->setTemplate('mobile','line');
+					$info->setIsHistorized(1);
+					$info->setUnite('V');
+                }
 				$info->setOrder(12);
 				$info->save();
             }
@@ -1167,19 +1192,20 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Intensité L1 : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_AmperesL1');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setConfiguration('minValue', 0);
-			$info->setConfiguration('maxValue', 32);
-			$info->setIsHistorized(1);
-			$info->setUnite('A');
+				$info->setLogicalId('EVSE_AmperesL1');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setConfiguration('minValue', 0);
+				$info->setConfiguration('maxValue', 32);
+				$info->setIsHistorized(1);
+				$info->setUnite('A');
+            }
 			$info->setOrder(21);
 			$info->save();
+          
          	if ($InstallationType == 10) { //10 = single phase, 20 = 3 phased
               	$action = $this->getCmd(null, 'EVSE_AmperesL2');
           		if (is_object($action)) {$action->remove();}
@@ -1190,17 +1216,17 @@ class LektriCo extends eqLogic {
 				if (!is_object($info)) {
 					$info = new LektriCoCmd();
 					$info->setName(__('Intensité L2 : ', __FILE__));
-				}
-				$info->setLogicalId('EVSE_AmperesL2');
-				$info->setEqLogic_id($this->getId());
-				$info->setType('info');
-				$info->setSubType('numeric');
-				$info->setTemplate('dashboard','line');
-      			$info->setTemplate('mobile','line');
-				$info->setConfiguration('minValue', 0);
-				$info->setConfiguration('maxValue', 32);
-				$info->setIsHistorized(1);
-				$info->setUnite('A');
+					$info->setLogicalId('EVSE_AmperesL2');
+					$info->setEqLogic_id($this->getId());
+					$info->setType('info');
+					$info->setSubType('numeric');
+					$info->setTemplate('dashboard','line');
+      				$info->setTemplate('mobile','line');
+					$info->setConfiguration('minValue', 0);
+					$info->setConfiguration('maxValue', 32);
+					$info->setIsHistorized(1);
+					$info->setUnite('A');
+                }
 				$info->setOrder(22);
 				$info->save();
               
@@ -1208,17 +1234,17 @@ class LektriCo extends eqLogic {
 				if (!is_object($info)) {
 					$info = new LektriCoCmd();
 					$info->setName(__('Intensité L3 : ', __FILE__));
-				}
-				$info->setLogicalId('EVSE_AmperesL3');
-				$info->setEqLogic_id($this->getId());
-				$info->setType('info');
-				$info->setSubType('numeric');
-				$info->setTemplate('dashboard','line');
-      			$info->setTemplate('mobile','line');
-				$info->setConfiguration('minValue', 0);
-				$info->setConfiguration('maxValue', 32);
-				$info->setIsHistorized(1);
-				$info->setUnite('A');
+					$info->setLogicalId('EVSE_AmperesL3');
+					$info->setEqLogic_id($this->getId());
+					$info->setType('info');
+					$info->setSubType('numeric');
+					$info->setTemplate('dashboard','line');
+      				$info->setTemplate('mobile','line');
+					$info->setConfiguration('minValue', 0);
+					$info->setConfiguration('maxValue', 32);
+					$info->setIsHistorized(1);
+					$info->setUnite('A');
+                }
 				$info->setOrder(23);
 				$info->save();
             }
@@ -1227,17 +1253,18 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Puissance L1: ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_WattsL1');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('numeric');
-			$info->setTemplate('dashboard','line');
-      		$info->setTemplate('mobile','line');
-			$info->setIsHistorized(1);
-			$info->setUnite('W');
+				$info->setLogicalId('EVSE_WattsL1');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('numeric');
+				$info->setTemplate('dashboard','line');
+      			$info->setTemplate('mobile','line');
+				$info->setIsHistorized(1);
+				$info->setUnite('W');
+            }
 			$info->setOrder(31);
 			$info->save();
+          
          	if ($InstallationType == 10) { //10 = single phase, 20 = 3 phased
               	$action = $this->getCmd(null, 'EVSE_WattsL2');
           		if (is_object($action)) {$action->remove();}
@@ -1248,15 +1275,15 @@ class LektriCo extends eqLogic {
 				if (!is_object($info)) {
 					$info = new LektriCoCmd();
 					$info->setName(__('Puissance L2 : ', __FILE__));
-				}
-				$info->setLogicalId('EVSE_WattsL2');
-				$info->setEqLogic_id($this->getId());
-				$info->setType('info');
-				$info->setSubType('numeric');
-				$info->setTemplate('dashboard','line');
-      			$info->setTemplate('mobile','line');
-				$info->setIsHistorized(1);
-				$info->setUnite('W');
+					$info->setLogicalId('EVSE_WattsL2');
+					$info->setEqLogic_id($this->getId());
+					$info->setType('info');
+					$info->setSubType('numeric');
+					$info->setTemplate('dashboard','line');
+      				$info->setTemplate('mobile','line');
+					$info->setIsHistorized(1);
+					$info->setUnite('W');
+                }
 				$info->setOrder(32);
 				$info->save();
               
@@ -1264,15 +1291,15 @@ class LektriCo extends eqLogic {
 				if (!is_object($info)) {
 					$info = new LektriCoCmd();
 					$info->setName(__('Puissance L3 : ', __FILE__));
-				}
-				$info->setLogicalId('EVSE_WattsL3');
-				$info->setEqLogic_id($this->getId());
-				$info->setType('info');
-				$info->setSubType('numeric');
-				$info->setTemplate('dashboard','line');
-      			$info->setTemplate('mobile','line');
-				$info->setIsHistorized(1);
-				$info->setUnite('W');
+					$info->setLogicalId('EVSE_WattsL3');
+					$info->setEqLogic_id($this->getId());
+					$info->setType('info');
+					$info->setSubType('numeric');
+					$info->setTemplate('dashboard','line');
+      				$info->setTemplate('mobile','line');
+					$info->setIsHistorized(1);
+					$info->setUnite('W');
+                }
 				$info->setOrder(33);
 				$info->save();
             }
@@ -1281,15 +1308,15 @@ class LektriCo extends eqLogic {
 			if (!is_object($info)) {
 				$info = new LektriCoCmd();
 				$info->setName(__('Mode Equilibrage : ', __FILE__));
-			}
-			$info->setLogicalId('EVSE_LoadBalancingMode');
-			$info->setEqLogic_id($this->getId());
-			$info->setType('info');
-			$info->setSubType('string');
-			$info->setTemplate('dashboard','default');
-      		$info->setTemplate('mobile','default');
-			$info->setIsHistorized(0);
-			$info->setIsVisible(1);
+				$info->setLogicalId('EVSE_LoadBalancingMode');
+				$info->setEqLogic_id($this->getId());
+				$info->setType('info');
+				$info->setSubType('string');
+				$info->setTemplate('dashboard','default');
+      			$info->setTemplate('mobile','default');
+				$info->setIsHistorized(0);
+				$info->setIsVisible(1);
+            }
 			$info->setOrder(40);
 			$info->save();
           
@@ -1298,12 +1325,12 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_LBM_Off');
 				$action->setName(__('Off', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('other');
-      		$action->setTemplate('dashboard','default');
-      		$action->setTemplate('mobile','default');
-			$action->setEqLogic_id($this->getId());
+				$action->setType('action');
+				$action->setSubType('other');
+      			$action->setTemplate('dashboard','default');
+      			$action->setTemplate('mobile','default');
+				$action->setEqLogic_id($this->getId());
+            }
 			$action->setOrder(50);
 			$action->save();
           
@@ -1312,12 +1339,12 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_LBM_Power');
 				$action->setName(__('Power', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('other');
-      		$action->setTemplate('dashboard','default');
-      		$action->setTemplate('mobile','default');
-			$action->setEqLogic_id($this->getId());
+				$action->setType('action');
+				$action->setSubType('other');
+      			$action->setTemplate('dashboard','default');
+      			$action->setTemplate('mobile','default');
+				$action->setEqLogic_id($this->getId());
+            }
 			$action->setOrder(51);
 			$action->save();
           
@@ -1326,12 +1353,12 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_LBM_Hybrid');
 				$action->setName(__('Hybrid', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('other');
-      		$action->setTemplate('dashboard','default');
-      		$action->setTemplate('mobile','default');
-			$action->setEqLogic_id($this->getId());
+				$action->setType('action');
+				$action->setSubType('other');
+      			$action->setTemplate('dashboard','default');
+      			$action->setTemplate('mobile','default');
+				$action->setEqLogic_id($this->getId());
+            }
 			$action->setOrder(52);
 			$action->save();
           
@@ -1340,12 +1367,12 @@ class LektriCo extends eqLogic {
 				$action = new LektriCoCmd();
 				$action->setLogicalId('EVSE_LBM_Green');
 				$action->setName(__('Green', __FILE__));
-			}
-			$action->setType('action');
-			$action->setSubType('other');
-      		$action->setTemplate('dashboard','default');
-      		$action->setTemplate('mobile','default');
-			$action->setEqLogic_id($this->getId());
+				$action->setType('action');
+				$action->setSubType('other');
+      			$action->setTemplate('dashboard','default');
+      			$action->setTemplate('mobile','default');
+				$action->setEqLogic_id($this->getId());
+            }
 			$action->setOrder(53);
 			$action->save();
           
@@ -1355,12 +1382,12 @@ class LektriCo extends eqLogic {
 		if (!is_object($refresh)) {
 			$refresh = new LektriCoCmd();
 			$refresh->setName(__('Rafraîchir', __FILE__));
-		}
-		$refresh->setEqLogic_id($this->getId());
-		$refresh->setLogicalId('update');
-		$refresh->setType('action');
-		$refresh->setSubType('other');
-    	$refresh->setIsVisible(0);
+			$refresh->setEqLogic_id($this->getId());
+			$refresh->setLogicalId('update');
+			$refresh->setType('action');
+			$refresh->setSubType('other');
+    		$refresh->setIsVisible(0);
+        }
 		$refresh->setOrder(99);
 		$refresh->save();
       
