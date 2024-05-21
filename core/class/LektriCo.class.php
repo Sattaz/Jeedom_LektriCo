@@ -760,6 +760,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','line');
              	$info->setIsHistorized(1);
 				$info->setUnite('V');
+				$info->setDisplay('forceReturnLineAfter',1);
 			}
           	$info->setOrder(1);
           	$info->save();
@@ -779,6 +780,7 @@ class LektriCo extends eqLogic {
 				$info->setConfiguration('maxValue', 32);
 				$info->setIsHistorized(1);
 				$info->setUnite('A');
+				$info->setDisplay('forceReturnLineAfter',1);
             }  
 			$info->setOrder(2);
 			$info->save();
@@ -796,6 +798,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','line');
 				$info->setIsHistorized(1);
 				$info->setUnite('Kwh');
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(3);
 			$info->save();
@@ -812,6 +815,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','line');
 				$info->setIsHistorized(1);
 				$info->setUnite('Kwh');
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(4);
 			$info->save();
@@ -830,6 +834,7 @@ class LektriCo extends eqLogic {
 				$info->setConfiguration('maxValue', 80);
 				$info->setIsHistorized(1);
 				$info->setUnite('°C');
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(5);
 			$info->save();
@@ -846,6 +851,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','default');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(1);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(6);
 			$info->save();
@@ -874,6 +880,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','line');
 				$info->setIsHistorized(1);
 				$info->setUnite('A');
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setConfiguration('minValue', $AMin);
 			$info->setConfiguration('maxValue', $AMax);
@@ -895,6 +902,7 @@ class LektriCo extends eqLogic {
 	    		$action->setUnite('A');
 				$action->setDisplay("showNameOndashboard",0);
       			$action->setDisplay("showNameOnmobile",0);
+			$action->setDisplay('forceReturnLineAfter',1);
             }
        		$action->setConfiguration('minValue', $AMin);
 			$action->setConfiguration('maxValue', $AMax);
@@ -929,6 +937,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','default');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(0);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(10);
 			$info->save();
@@ -946,6 +955,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','default');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(0);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(11);
 			$info->save();
@@ -996,6 +1006,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','default');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(0);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(21);
 			$info->save();
@@ -1015,6 +1026,7 @@ class LektriCo extends eqLogic {
       			$action->setDisplay("showNameOnmobile",0);
 				$action->setEqLogic_id($this->getId());
       			$action->setIsVisible(1);
+			$action->setDisplay('forceReturnLineAfter',1);
             }
 			$action->setOrder(22);
 			$action->save();
@@ -1033,6 +1045,7 @@ class LektriCo extends eqLogic {
       			$action->setDisplay("showNameOnmobile",0);
 				$action->setEqLogic_id($this->getId());
       			$action->setIsVisible(1);
+			$action->setDisplay('forceReturnLineAfter',1);
             }
 			$action->setOrder(23);
 			$action->save();
@@ -1049,6 +1062,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','default');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(0);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(24);
 			$info->save();
@@ -1065,6 +1079,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','line');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(0);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(25);
 			$info->save();
@@ -1081,6 +1096,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','line');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(0);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(26);
 			$info->save();
@@ -1097,6 +1113,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','default');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(0);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(27);
 			$info->save();
@@ -1159,6 +1176,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','line');
 				$info->setIsHistorized(1);
 				$info->setUnite('V');
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(10);
 			$info->save();
@@ -1181,6 +1199,7 @@ class LektriCo extends eqLogic {
       				$info->setTemplate('mobile','line');
 					$info->setIsHistorized(1);
 					$info->setUnite('V');
+					$info->setDisplay('forceReturnLineAfter',1);
                 }
 				$info->setOrder(11);
 				$info->save();
@@ -1197,6 +1216,7 @@ class LektriCo extends eqLogic {
       				$info->setTemplate('mobile','line');
 					$info->setIsHistorized(1);
 					$info->setUnite('V');
+					$info->setDisplay('forceReturnLineAfter',1);
                 }
 				$info->setOrder(12);
 				$info->save();
@@ -1216,6 +1236,7 @@ class LektriCo extends eqLogic {
 				$info->setConfiguration('maxValue', 32);
 				$info->setIsHistorized(1);
 				$info->setUnite('A');
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(21);
 			$info->save();
@@ -1240,6 +1261,7 @@ class LektriCo extends eqLogic {
 					$info->setConfiguration('maxValue', 32);
 					$info->setIsHistorized(1);
 					$info->setUnite('A');
+					$info->setDisplay('forceReturnLineAfter',1);
                 }
 				$info->setOrder(22);
 				$info->save();
@@ -1258,6 +1280,7 @@ class LektriCo extends eqLogic {
 					$info->setConfiguration('maxValue', 32);
 					$info->setIsHistorized(1);
 					$info->setUnite('A');
+					$info->setDisplay('forceReturnLineAfter',1);
                 }
 				$info->setOrder(23);
 				$info->save();
@@ -1275,6 +1298,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','line');
 				$info->setIsHistorized(1);
 				$info->setUnite('W');
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(31);
 			$info->save();
@@ -1297,6 +1321,7 @@ class LektriCo extends eqLogic {
       				$info->setTemplate('mobile','line');
 					$info->setIsHistorized(1);
 					$info->setUnite('W');
+					$info->setDisplay('forceReturnLineAfter',1);
                 }
 				$info->setOrder(32);
 				$info->save();
@@ -1313,6 +1338,7 @@ class LektriCo extends eqLogic {
       				$info->setTemplate('mobile','line');
 					$info->setIsHistorized(1);
 					$info->setUnite('W');
+					$info->setDisplay('forceReturnLineAfter',1);
                 }
 				$info->setOrder(33);
 				$info->save();
@@ -1330,6 +1356,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','default');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(1);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(40);
 			$info->save();
@@ -1344,6 +1371,7 @@ class LektriCo extends eqLogic {
       			$action->setTemplate('dashboard','default');
       			$action->setTemplate('mobile','default');
 				$action->setEqLogic_id($this->getId());
+				//$action->setDisplay('forceReturnLineAfter',1);
             }
 			$action->setOrder(50);
 			$action->save();
@@ -1358,6 +1386,7 @@ class LektriCo extends eqLogic {
       			$action->setTemplate('dashboard','default');
       			$action->setTemplate('mobile','default');
 				$action->setEqLogic_id($this->getId());
+				//$action->setDisplay('forceReturnLineAfter',1);
             }
 			$action->setOrder(51);
 			$action->save();
@@ -1372,6 +1401,7 @@ class LektriCo extends eqLogic {
       			$action->setTemplate('dashboard','default');
       			$action->setTemplate('mobile','default');
 				$action->setEqLogic_id($this->getId());
+				//$action->setDisplay('forceReturnLineAfter',1);
             }
 			$action->setOrder(52);
 			$action->save();
@@ -1386,6 +1416,7 @@ class LektriCo extends eqLogic {
       			$action->setTemplate('dashboard','default');
       			$action->setTemplate('mobile','default');
 				$action->setEqLogic_id($this->getId());
+				//$action->setDisplay('forceReturnLineAfter',1);
             }
 			$action->setOrder(53);
 			$action->save();
