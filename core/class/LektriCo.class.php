@@ -921,6 +921,7 @@ class LektriCo extends eqLogic {
       			$info->setTemplate('mobile','default');
 				$info->setIsHistorized(0);
 				$info->setIsVisible(1);
+				$info->setDisplay('forceReturnLineAfter',1);
             }
 			$info->setOrder(9);
 			$info->save();
