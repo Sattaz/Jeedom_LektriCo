@@ -872,11 +872,11 @@ class LektriCo extends eqLogic {
 				$info->setSubType('numeric');
 				$info->setTemplate('dashboard','line');
       			$info->setTemplate('mobile','line');
-				$info->setConfiguration('minValue', $AMin);
-				$info->setConfiguration('maxValue', $AMax);
 				$info->setIsHistorized(1);
 				$info->setUnite('A');
             }
+			$info->setConfiguration('minValue', $AMin);
+			$info->setConfiguration('maxValue', $AMax);
 			$info->setOrder(7);
 			$info->save();
 		
