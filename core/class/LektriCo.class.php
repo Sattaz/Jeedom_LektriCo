@@ -517,6 +517,9 @@ class LektriCo extends eqLogic {
             // Get LektriCo Actual Volts & Amperes
 			$amperes = round($json['pwm_current'],1);
 			$volts = round($json['voltage'],0);
+			if ($volts==0) {
+           			$volts = round(($json['voltages']['0']+$json['voltages']['1']+$json['voltages']['2'])/3,0);
+            		}
 			$this->checkAndUpdateCmd('EVSE_Amperes', $amperes);
 			$this->checkAndUpdateCmd('EVSE_Volts', $volts);
               
