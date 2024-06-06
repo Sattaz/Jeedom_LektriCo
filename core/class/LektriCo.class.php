@@ -894,8 +894,12 @@ class LektriCo extends eqLogic
                     0
                 );
             }
+            $puissance = round($json["instant_power"], 0);
+            $eindex = round($json["energy_index"], 2);
             $this->checkAndUpdateCmd("EVSE_Amperes", $amperes);
             $this->checkAndUpdateCmd("EVSE_Volts", $volts);
+            $this->checkAndUpdateCmd("EVSE_Puissance", $puissance);
+            $this->checkAndUpdateCmd("EVSE_EIndex", $eindex);
 
             // Get LektriCo Charge Session in Kwh
             $chargesession = $json["session_energy"];
@@ -1258,6 +1262,7 @@ class LektriCo extends eqLogic
                 $info->setSubType("numeric");
                 $info->setTemplate("dashboard", "line");
                 $info->setTemplate("mobile", "line");
+              	$info->setConfiguration("historizeRound", 0);
                 $info->setIsHistorized(1);
                 $info->setUnite("V");
                 $info->setDisplay("forceReturnLineAfter", 1);
@@ -1278,11 +1283,50 @@ class LektriCo extends eqLogic
                 $info->setTemplate("mobile", "line");
                 $info->setConfiguration("minValue", 0);
                 $info->setConfiguration("maxValue", 32);
+                $info->setConfiguration("historizeRound", 0);
                 $info->setIsHistorized(1);
                 $info->setUnite("A");
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
             $info->setOrder(2);
+            $info->save();
+          
+            $info = $this->getCmd(null, "EVSE_Puissance");
+            if (!is_object($info)) {
+                $info = new LektriCoCmd();
+                $info->setName(__("Puissance : ", __FILE__));
+
+                $info->setLogicalId("EVSE_Puissance");
+                $info->setEqLogic_id($this->getId());
+                $info->setType("info");
+                $info->setSubType("numeric");
+                $info->setTemplate("dashboard", "line");
+                $info->setTemplate("mobile", "line");
+                $info->setConfiguration("historizeRound", 0);
+                $info->setIsHistorized(1);
+                $info->setUnite("W");
+                $info->setDisplay("forceReturnLineAfter", 1);
+            }
+            $info->setOrder(3);
+            $info->save();
+          
+            $info = $this->getCmd(null, "EVSE_EIndex");
+            if (!is_object($info)) {
+                $info = new LektriCoCmd();
+                $info->setName(__("Index Energie : ", __FILE__));
+
+                $info->setLogicalId("EVSE_EIndex");
+                $info->setEqLogic_id($this->getId());
+                $info->setType("info");
+                $info->setSubType("numeric");
+                $info->setTemplate("dashboard", "line");
+                $info->setTemplate("mobile", "line");
+                $info->setConfiguration("historizeRound", 2);
+                $info->setIsHistorized(1);
+                $info->setUnite("Wh");
+                $info->setDisplay("forceReturnLineAfter", 1);
+            }
+            $info->setOrder(4);
             $info->save();
 
             $info = $this->getCmd(null, "EVSE_ChargeSession");
@@ -1296,11 +1340,12 @@ class LektriCo extends eqLogic
                 $info->setSubType("numeric");
                 $info->setTemplate("dashboard", "line");
                 $info->setTemplate("mobile", "line");
+                $info->setConfiguration("historizeRound", 2);
                 $info->setIsHistorized(1);
                 $info->setUnite("Kwh");
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
-            $info->setOrder(3);
+            $info->setOrder(5);
             $info->save();
 
             $info = $this->getCmd(null, "EVSE_LastSession");
@@ -1313,11 +1358,12 @@ class LektriCo extends eqLogic
                 $info->setSubType("numeric");
                 $info->setTemplate("dashboard", "line");
                 $info->setTemplate("mobile", "line");
+                $info->setConfiguration("historizeRound", 2);
                 $info->setIsHistorized(1);
                 $info->setUnite("Kwh");
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
-            $info->setOrder(4);
+            $info->setOrder(6);
             $info->save();
 
             $info = $this->getCmd(null, "EVSE_Temp");
@@ -1332,11 +1378,12 @@ class LektriCo extends eqLogic
                 $info->setTemplate("mobile", "line");
                 $info->setConfiguration("minValue", 0);
                 $info->setConfiguration("maxValue", 80);
+                $info->setConfiguration("historizeRound", 1);
                 $info->setIsHistorized(1);
                 $info->setUnite("°C");
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
-            $info->setOrder(5);
+            $info->setOrder(7);
             $info->save();
 
             $info = $this->getCmd(null, "EVSE_Plug");
@@ -1353,7 +1400,7 @@ class LektriCo extends eqLogic
                 $info->setIsVisible(1);
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
-            $info->setOrder(6);
+            $info->setOrder(8);
             $info->save();
 
             $AMin = $this->getConfiguration("AMin");
@@ -1378,13 +1425,14 @@ class LektriCo extends eqLogic
                 $info->setSubType("numeric");
                 $info->setTemplate("dashboard", "line");
                 $info->setTemplate("mobile", "line");
+                $info->setConfiguration("historizeRound", 0);
                 $info->setIsHistorized(1);
                 $info->setUnite("A");
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
             $info->setConfiguration("minValue", $AMin);
             $info->setConfiguration("maxValue", $AMax);
-            $info->setOrder(7);
+            $info->setOrder(9);
             $info->save();
 
             $action = $this->getCmd(null, "EVSE_AmpSetPointSlider");
@@ -1408,7 +1456,7 @@ class LektriCo extends eqLogic
             }
             $action->setConfiguration("minValue", $AMin);
             $action->setConfiguration("maxValue", $AMax);
-            $action->setOrder(8);
+            $action->setOrder(10);
             $action->save();
 
             $info = $this->getCmd(null, "EVSE_State");
@@ -1425,7 +1473,7 @@ class LektriCo extends eqLogic
                 $info->setIsVisible(1);
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
-            $info->setOrder(9);
+            $info->setOrder(11);
             $info->save();
 
             $info = $this->getCmd(null, "EVSE_Mode");
@@ -1442,7 +1490,7 @@ class LektriCo extends eqLogic
                 $info->setIsVisible(0);
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
-            $info->setOrder(10);
+            $info->setOrder(12);
             $info->save();
             $this->checkAndUpdateCmd("EVSE_Mode", "Manuel");
 
@@ -1460,7 +1508,7 @@ class LektriCo extends eqLogic
                 $info->setIsVisible(0);
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
-            $info->setOrder(11);
+            $info->setOrder(13);
             $info->save();
 
             $action = $this->getCmd(null, "EVSE_Start");
@@ -1477,7 +1525,7 @@ class LektriCo extends eqLogic
                 $action->setDisplay("showNameOnmobile", 0);
                 $action->setEqLogic_id($this->getId());
             }
-            $action->setOrder(12);
+            $action->setOrder(14);
             $action->save();
 
             $action = $this->getCmd(null, "EVSE_Stop");
@@ -1494,7 +1542,7 @@ class LektriCo extends eqLogic
                 $action->setDisplay("showNameOnmobile", 0);
                 $action->setEqLogic_id($this->getId());
             }
-            $action->setOrder(13);
+            $action->setOrder(15);
             $action->save();
 
             $info = $this->getCmd(null, "EVSE_ModeBin");
@@ -1631,6 +1679,14 @@ class LektriCo extends eqLogic
             if (is_object($action)) {
                 $action->remove();
             }
+            $action = $this->getCmd(null, "EVSE_Puissance");
+            if (is_object($action)) {
+                $action->remove();
+            }
+            $action = $this->getCmd(null, "EVSE_EIndex");
+            if (is_object($action)) {
+                $action->remove();
+            }
             $action = $this->getCmd(null, "EVSE_ChargeSession");
             if (is_object($action)) {
                 $action->remove();
@@ -1716,6 +1772,7 @@ class LektriCo extends eqLogic
                 $info->setSubType("numeric");
                 $info->setTemplate("dashboard", "line");
                 $info->setTemplate("mobile", "line");
+                $info->setConfiguration("historizeRound", 0);
                 $info->setIsHistorized(1);
                 $info->setUnite("V");
                 $info->setDisplay("forceReturnLineAfter", 1);
@@ -1744,6 +1801,7 @@ class LektriCo extends eqLogic
                     $info->setSubType("numeric");
                     $info->setTemplate("dashboard", "line");
                     $info->setTemplate("mobile", "line");
+                    $info->setConfiguration("historizeRound", 0);
                     $info->setIsHistorized(1);
                     $info->setUnite("V");
                     $info->setDisplay("forceReturnLineAfter", 1);
@@ -1761,6 +1819,7 @@ class LektriCo extends eqLogic
                     $info->setSubType("numeric");
                     $info->setTemplate("dashboard", "line");
                     $info->setTemplate("mobile", "line");
+                    $info->setConfiguration("historizeRound", 0);
                     $info->setIsHistorized(1);
                     $info->setUnite("V");
                     $info->setDisplay("forceReturnLineAfter", 1);
@@ -1781,6 +1840,7 @@ class LektriCo extends eqLogic
                 $info->setTemplate("mobile", "line");
                 $info->setConfiguration("minValue", 0);
                 $info->setConfiguration("maxValue", 32);
+                $info->setConfiguration("historizeRound", 0);
                 $info->setIsHistorized(1);
                 $info->setUnite("A");
                 $info->setDisplay("forceReturnLineAfter", 1);
@@ -1811,6 +1871,7 @@ class LektriCo extends eqLogic
                     $info->setTemplate("mobile", "line");
                     $info->setConfiguration("minValue", 0);
                     $info->setConfiguration("maxValue", 32);
+                    $info->setConfiguration("historizeRound", 0);
                     $info->setIsHistorized(1);
                     $info->setUnite("A");
                     $info->setDisplay("forceReturnLineAfter", 1);
@@ -1830,6 +1891,7 @@ class LektriCo extends eqLogic
                     $info->setTemplate("mobile", "line");
                     $info->setConfiguration("minValue", 0);
                     $info->setConfiguration("maxValue", 32);
+                    $info->setConfiguration("historizeRound", 0);
                     $info->setIsHistorized(1);
                     $info->setUnite("A");
                     $info->setDisplay("forceReturnLineAfter", 1);
@@ -1848,6 +1910,7 @@ class LektriCo extends eqLogic
                 $info->setSubType("numeric");
                 $info->setTemplate("dashboard", "line");
                 $info->setTemplate("mobile", "line");
+                $info->setConfiguration("historizeRound", 0);
                 $info->setIsHistorized(1);
                 $info->setUnite("W");
                 $info->setDisplay("forceReturnLineAfter", 1);
@@ -1876,6 +1939,7 @@ class LektriCo extends eqLogic
                     $info->setSubType("numeric");
                     $info->setTemplate("dashboard", "line");
                     $info->setTemplate("mobile", "line");
+                    $info->setConfiguration("historizeRound", 0);
                     $info->setIsHistorized(1);
                     $info->setUnite("W");
                     $info->setDisplay("forceReturnLineAfter", 1);
@@ -1893,6 +1957,7 @@ class LektriCo extends eqLogic
                     $info->setSubType("numeric");
                     $info->setTemplate("dashboard", "line");
                     $info->setTemplate("mobile", "line");
+                    $info->setConfiguration("historizeRound", 0);
                     $info->setIsHistorized(1);
                     $info->setUnite("W");
                     $info->setDisplay("forceReturnLineAfter", 1);
