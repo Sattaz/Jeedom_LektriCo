@@ -3,7 +3,7 @@
 Adaptation Jeedom v4.4.x
 
 Gestion des bornes Lektri.Co monophasé et triphasé.
-Note : pour la borne triphasé, l'API peut forcer une charger en mono ou en tri (pas encore implementé dans le plugin)
+Note : pour la borne triphasé, l'API peut forcer une charge en mono ou en tri (pas encore implementé dans le plugin)
 
 Gestion des energy meters Lektri.Co.
 
