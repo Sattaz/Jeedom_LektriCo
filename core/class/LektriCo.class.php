@@ -895,11 +895,11 @@ class LektriCo extends eqLogic
                 );
             }
             $puissance = round($json["instant_power"], 0);
-            $eindex = round($json["energy_index"], 2);
+            $totalenergy = round($json["total_charged_energy"], 2);
             $this->checkAndUpdateCmd("EVSE_Amperes", $amperes);
             $this->checkAndUpdateCmd("EVSE_Volts", $volts);
             $this->checkAndUpdateCmd("EVSE_Puissance", $puissance);
-            $this->checkAndUpdateCmd("EVSE_EIndex", $eindex);
+            $this->checkAndUpdateCmd("EVSE_TotalEnergy", $totalenergy);
 
             // Get LektriCo Charge Session in Kwh
             $chargesession = $json["session_energy"];
@@ -1310,12 +1310,12 @@ class LektriCo extends eqLogic
             $info->setOrder(3);
             $info->save();
           
-            $info = $this->getCmd(null, "EVSE_EIndex");
+            $info = $this->getCmd(null, "EVSE_TotalEnergy");
             if (!is_object($info)) {
                 $info = new LektriCoCmd();
-                $info->setName(__("Index Energie : ", __FILE__));
+                $info->setName(__("Energie Totale : ", __FILE__));
 
-                $info->setLogicalId("EVSE_EIndex");
+                $info->setLogicalId("EVSE_TotalEnergy");
                 $info->setEqLogic_id($this->getId());
                 $info->setType("info");
                 $info->setSubType("numeric");
@@ -1683,7 +1683,7 @@ class LektriCo extends eqLogic
             if (is_object($action)) {
                 $action->remove();
             }
-            $action = $this->getCmd(null, "EVSE_EIndex");
+            $action = $this->getCmd(null, "EVSE_TotalEnergy");
             if (is_object($action)) {
                 $action->remove();
             }
