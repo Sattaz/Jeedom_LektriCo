@@ -1323,7 +1323,7 @@ class LektriCo extends eqLogic
                 $info->setTemplate("mobile", "line");
                 $info->setConfiguration("historizeRound", 2);
                 $info->setIsHistorized(1);
-                $info->setUnite("Wh");
+                $info->setUnite("kWh");
                 $info->setDisplay("forceReturnLineAfter", 1);
             }
             $info->setOrder(4);
