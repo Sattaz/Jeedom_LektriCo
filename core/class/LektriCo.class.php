@@ -227,6 +227,7 @@ class LektriCo extends eqLogic
     public function SetStartStop($StartStop)
     {
         try {
+            $DeviceType = $this->getConfiguration("DeviceType");
             $LektriCo_IP = $this->getConfiguration("IP");
             $LektriCo_User = $this->getConfiguration("User");
             $LektriCo_Password = $this->getConfiguration("Password");
@@ -437,6 +438,61 @@ class LektriCo extends eqLogic
                         return;
                     }
                 }
+              
+                $cmd = $this->getCmd(null, "EVSE_AmpSetPointReadBack");
+                $setPointCMD = $cmd->execCmd();
+          
+                $relayMode = 3;
+                if ($DeviceType == 10) {
+                    //1P7K
+                    $postfields = "{dynamic_current:" . $setPointCMD . "}";
+                } else {
+                    //3P22K
+                    $postfields =
+                        "{dynamic_current:" .
+                        $setPointCMD .
+                        ", relay_mode:" .
+                        $relayMode .
+                        "}";
+                }
+          
+                curl_setopt_array($ch, [
+                    CURLOPT_URL =>
+                        "http://" . $LektriCo_IP . "/rpc/Dynamic_current.set",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 10,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => $postfields,
+                    CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
+                ]);
+
+                $response = curl_exec($ch);
+                if ($response == "") {
+                    log::add(
+                        "LektriCo",
+                        "debug",
+                        "Fonction SetStartStop : Dynamic_current - Erreur de connexion / authentification " .
+                            $this->getHumanName()
+                    );
+                    curl_close($ch);
+                    return;
+                }
+                $err = curl_error($ch);
+                if ($err) {
+                    log::add(
+                        "LektriCo",
+                        "debug",
+                        "Fonction SetStartStop : Dynamic_current - Erreur CURL -> "
+                    ) .
+                        $err .
+                        " " .
+                        $this->getHumanName();
+                    return;
+                }
+              
             }
 
             curl_setopt_array($ch, [
