@@ -1,4 +1,4 @@
-* xx-Juin-2024:
+* 02-Octobre-2024:
 
 Adaptation Jeedom v4.4.x
 
