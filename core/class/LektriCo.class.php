@@ -160,15 +160,20 @@ class LektriCo extends eqLogic
             $relayMode = 3;
             if ($DeviceType == 10) {
                 //1P7K
-                $postfields = "{dynamic_current:" . $valueSlider . "}";
+                //$postfields = "{dynamic_current:" . $valueSlider . "}";
+              	$postfields = json_encode(["dynamic_current" => (int) $valueSlider]);
             } else {
                 //3P22K
-                $postfields =
-                    "{dynamic_current:" .
-                    $valueSlider .
-                    ", relay_mode:" .
-                    $relayMode .
-                    "}";
+                //$postfields =
+                //    "{dynamic_current:" .
+                //    $valueSlider .
+                //    ", relay_mode:" .
+                //    $relayMode .
+                //    "}";
+                $postfields = json_encode([
+                    "dynamic_current" => (int) $valueSlider,
+                  	"relay_mode" => $relayMode,
+                ]);
             }
 
             curl_setopt_array($ch, [
@@ -445,15 +450,20 @@ class LektriCo extends eqLogic
                 $relayMode = 3;
                 if ($DeviceType == 10) {
                     //1P7K
-                    $postfields = "{dynamic_current:" . $setPointCMD . "}";
+                    //$postfields = "{dynamic_current:" . $setPointCMD . "}";
+					$postfields = json_encode(["dynamic_current" => (int) $setPointCMD]);
                 } else {
                     //3P22K
-                    $postfields =
-                        "{dynamic_current:" .
-                        $setPointCMD .
-                        ", relay_mode:" .
-                        $relayMode .
-                        "}";
+                    //$postfields =
+                    //    "{dynamic_current:" .
+                    //    $setPointCMD .
+                    //    ", relay_mode:" .
+                    //    $relayMode .
+                    //    "}";
+                    $postfields = json_encode([
+                        "dynamic_current" => (int) $setPointCMD,
+                        "relay_mode" => $relayMode,
+                    ]);
                 }
           
                 curl_setopt_array($ch, [
@@ -1012,7 +1022,8 @@ class LektriCo extends eqLogic
                 CURLOPT_TIMEOUT => 10,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "{load_balancing_mode:" . $Mode . "}",
+                //CURLOPT_POSTFIELDS => "{load_balancing_mode:" . $Mode . "}",
+              	CURLOPT_POSTFIELDS => json_encode(["load_balancing_mode" => (int) $Mode]),
                 CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
             ]);
             $response = curl_exec($ch);
